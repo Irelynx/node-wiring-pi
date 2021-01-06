@@ -1,26 +1,35 @@
+// tested on:
+// Node.js v10.23.0 (V8 v6.8.275.32)
+// Node.js v14.15.3 (V8 v8.4.371.19)
+// at 2020.12.30
 #include <node.h>
 #include <v8.h>
 
+// TODO: implement UNSAFE versions of digitalRead, digitalWrite, pinMode, delayMicroseconds. Store them in `unsafe` object in `exports` (see init())
+// TODO: implement other core features of wiringPi/wiringOP, add other core variables
+
 /*
-exported functions:
+currently exported functions:
     wiringPiSetup(): Number
+    piBoardRev(): Number
     pinMode(pin: Number, mode: OUTPUT | INPUT): void
+    digitalWrite(pin: Number, value: LOW | HIGH): void
     digitalRead(pin: Number): void
-    digitalWrite(pin: Number, value: 0 | 1): void
     delay(ms: Number): void
     delayMicro(mks: Number): void
 */
 
+// used this version: https://github.com/orangepi-xunlong/wiringOP.git (latest commit: 35de0150a9c319a52badd15abe7ef172bc2e4afe @2020.12.14)
 #include <wiringPi.h>
 
 namespace wpi {
-    static void wiringPiSetup(const v8::FunctionCallbackInfo<v8::Value>& args);
-    static void piBoardRev(const v8::FunctionCallbackInfo<v8::Value>& args);
-    static void pinMode(const v8::FunctionCallbackInfo<v8::Value>& args);
-    static void digitalRead(const v8::FunctionCallbackInfo<v8::Value>& args);
-    static void digitalWrite(const v8::FunctionCallbackInfo<v8::Value>& args);
-    static void delay(const v8::FunctionCallbackInfo<v8::Value>& args);
-    static void delayMicroseconds(const v8::FunctionCallbackInfo<v8::Value>& args);
+    static void wiringPiSetup       (const v8::FunctionCallbackInfo<v8::Value>& args);
+    static void piBoardRev          (const v8::FunctionCallbackInfo<v8::Value>& args);
+    static void pinMode             (const v8::FunctionCallbackInfo<v8::Value>& args);
+    static void digitalRead         (const v8::FunctionCallbackInfo<v8::Value>& args);
+    static void digitalWrite        (const v8::FunctionCallbackInfo<v8::Value>& args);
+    static void delay               (const v8::FunctionCallbackInfo<v8::Value>& args);
+    static void delayMicroseconds   (const v8::FunctionCallbackInfo<v8::Value>& args);
 }
 
 // Implementations
@@ -31,7 +40,7 @@ void wpi::wiringPiSetup(const v8::FunctionCallbackInfo<v8::Value>& args) {
     
     if (args.Length() != 0) {
         isolate->ThrowException(v8::Exception::TypeError(
-            v8::String::NewFromUtf8(isolate, "Wrong number of arguments.").ToLocalChecked()
+            v8::String::NewFromUtf8(isolate, "Wrong number of arguments (0 expected).").ToLocalChecked()
         ));
         args.GetReturnValue().SetUndefined();
         return;
@@ -50,7 +59,7 @@ void wpi::piBoardRev(const v8::FunctionCallbackInfo<v8::Value>& args) {
     
     if (args.Length() != 0) {
         isolate->ThrowException(v8::Exception::TypeError(
-            v8::String::NewFromUtf8(isolate, "Wrong number of arguments.").ToLocalChecked()
+            v8::String::NewFromUtf8(isolate, "Wrong number of arguments (0 expected).").ToLocalChecked()
         ));
         args.GetReturnValue().SetUndefined();
         return;
@@ -68,7 +77,7 @@ void wpi::pinMode(const v8::FunctionCallbackInfo<v8::Value>& args) {
     
     if (args.Length() != 2) {
         isolate->ThrowException(v8::Exception::TypeError(
-            v8::String::NewFromUtf8(isolate, "Wrong number of arguments.").ToLocalChecked()
+            v8::String::NewFromUtf8(isolate, "Wrong number of arguments (2 expected. pin, mode).").ToLocalChecked()
         ));
         args.GetReturnValue().SetUndefined();
         return;
@@ -112,7 +121,7 @@ void wpi::digitalWrite(const v8::FunctionCallbackInfo<v8::Value>& args) {
     
     if (args.Length() != 2) {
         isolate->ThrowException(v8::Exception::TypeError(
-            v8::String::NewFromUtf8(isolate, "Wrong number of arguments.").ToLocalChecked()
+            v8::String::NewFromUtf8(isolate, "Wrong number of arguments (2 expected. pin, level).").ToLocalChecked()
         ));
         args.GetReturnValue().SetUndefined();
         return;
@@ -134,7 +143,7 @@ void wpi::digitalWrite(const v8::FunctionCallbackInfo<v8::Value>& args) {
         || value == LOW
     )) {
         isolate->ThrowException(v8::Exception::TypeError(
-            v8::String::NewFromUtf8(isolate, "Wrong value.").ToLocalChecked()
+            v8::String::NewFromUtf8(isolate, "Wrong level value (HIGH or LOW expected).").ToLocalChecked()
         ));
         args.GetReturnValue().SetUndefined();
         return;
@@ -152,7 +161,7 @@ void wpi::digitalRead(const v8::FunctionCallbackInfo<v8::Value>& args) {
     
     if (args.Length() != 1) {
         isolate->ThrowException(v8::Exception::TypeError(
-            v8::String::NewFromUtf8(isolate, "Wrong number of arguments.").ToLocalChecked()
+            v8::String::NewFromUtf8(isolate, "Wrong number of arguments (1 expected. pin).").ToLocalChecked()
         ));
         args.GetReturnValue().SetUndefined();
         return;
@@ -179,7 +188,7 @@ void wpi::delay(const v8::FunctionCallbackInfo<v8::Value>& args) {
     
     if (args.Length() != 1) {
         isolate->ThrowException(v8::Exception::TypeError(
-            v8::String::NewFromUtf8(isolate, "Wrong number of arguments.").ToLocalChecked()
+            v8::String::NewFromUtf8(isolate, "Wrong number of arguments (1 expected. howLong_ms).").ToLocalChecked()
         ));
         args.GetReturnValue().SetUndefined();
         return;
@@ -206,7 +215,7 @@ void wpi::delayMicroseconds(const v8::FunctionCallbackInfo<v8::Value>& args) {
     
     if (args.Length() != 1) {
         isolate->ThrowException(v8::Exception::TypeError(
-            v8::String::NewFromUtf8(isolate, "Wrong number of arguments.").ToLocalChecked()
+            v8::String::NewFromUtf8(isolate, "Wrong number of arguments (1 expected. howLong_mks).").ToLocalChecked()
         ));
         args.GetReturnValue().SetUndefined();
         return;
@@ -227,7 +236,6 @@ void wpi::delayMicroseconds(const v8::FunctionCallbackInfo<v8::Value>& args) {
     
     args.GetReturnValue().SetUndefined();
 }
-
 
 void init(v8::Local<v8::Object> exports, v8::Local<v8::Value> module) {
     v8::Isolate* isolate = exports->GetIsolate();
