@@ -39,8 +39,9 @@ const {
 
 ## Verified versions of Node.js that works with addon
 
-Node.js v10.23.0 (V8 v6.8.275.32)
-Node.js v14.15.3 (V8 v8.4.371.19)
+* Node.js v10.23.0 (V8 v6.8.275.32)
+* Node.js v14.15.3 (V8 v8.4.371.19)
+
 Tested at: 2020.12.30, on Orange Pi Zero (H2+, 512MB)
 
 ## Requirements
