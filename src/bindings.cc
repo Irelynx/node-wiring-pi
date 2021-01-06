@@ -14,7 +14,7 @@ currently exported functions:
     piBoardRev(): Number
     pinMode(pin: Number, mode: OUTPUT | INPUT): void
     digitalWrite(pin: Number, value: LOW | HIGH): void
-    digitalRead(pin: Number): void
+    digitalRead(pin: Number): LOW | HIGH
     delay(ms: Number): void
     delayMicro(mks: Number): void
 */
