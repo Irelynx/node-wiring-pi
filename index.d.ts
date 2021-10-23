@@ -2,30 +2,32 @@ declare namespace wiringPi {
     // constants
     
     // LOW digital level
-    declare const LOW: 0;
+    export const LOW = 0;
     // HIGH digital level
-    declare const HIGH: 1;
+    export const HIGH = 1;
     // INPUT mode
-    declare const INPUT: 0;
+    export const INPUT = 0;
     // OUTPUT mode
-    declare const OUTPUT: 1;
+    export const OUTPUT = 1;
+    export type DigitalLevel = typeof LOW | typeof HIGH;
+    export type DigitalMode = typeof INPUT | typeof OUTPUT;
     
     // functions
 
     // wiringPi init
-    declare function wiringPiSetup(): void;
+    export function wiringPiSetup(): void;
     // get board revision field
-    declare function piBoardRev(): void;
+    export function piBoardRev(): void;
     // read from pin
-    declare function digitalRead(pin: Number): void;
+    export function digitalRead(pin: Number): DigitalLevel;
     // write to pin
-    declare function digitalWrite(pin: Number, pinLevel: LOW | HIGH): void;
+    export function digitalWrite(pin: Number, pinLevel: DigitalLevel): void;
     // set pin mode
-    declare function pinMode(pin: Number, pinMode: INPUT | OUTPUT): void;
+    export function pinMode(pin: Number, pinMode: DigitalMode): void;
     // Milliseconds delay
-    declare function delay(howLong_ms: Number): void;
+    export function delay(howLong_ms: Number): void;
     // Microseconds delay
-    declare function delayMicroseconds(howLong_mks: Number): void;
+    export function delayMicroseconds(howLong_mks: Number): void;
 }
 
 export = wiringPi;

@@ -1,6 +1,6 @@
 {
   "name": "node-wiringPi",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "./build/Release/wiringPi.node",
   "types": "./index.d.ts",

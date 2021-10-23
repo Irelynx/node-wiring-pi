@@ -56,7 +56,7 @@ Tested at: 2020.12.30, on Orange Pi Zero (H2+, 512MB)
 | - | - | - |
 | `wiringPiSetup`(): Number                                         | function  | Initial Setup, must be called before any other function will be called |
 | `piBoardRev`(): Number                                            | function  | Get Pi board revision         |
-| `pinMode`(`pin`: Number, `mode`: `OUTPUT` \| `INPUT`): void       | function  | Set pin mode                  |
+| `pinMode`(`pin`: Number, `mode`: `OUTPUT` \| `INPUT`): `void`     | function  | Set pin mode                  |
 | `digitalWrite`(`pin`: Number, `value`: `LOW` \| `HIGH`): `void`   | function  | Write digital value           |
 | `digitalRead`(`pin`: Number): `LOW` \| `HIGH`                     | function  | Read digital value            |
 | `delay`(`ms`: Number): `void`                                     | function  | **SYNC** Milliseconds delay   |
